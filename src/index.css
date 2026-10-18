@@ -515,3 +515,20 @@ form {
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
+
+.pending {
+  padding: 1rem 1.1rem;
+  margin: 0 0 1rem;
+  color: var(--teal-dark);
+  background: #fff4e5;
+  border: 0.12rem dashed var(--orange, #f28c28);
+  border-radius: 0.9rem;
+}
+
+.pending h2 {
+  margin: 0 0 0.4rem;
+}
+
+.pending p {
+  margin: 0;
+}
