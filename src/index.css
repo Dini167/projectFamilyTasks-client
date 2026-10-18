@@ -169,7 +169,8 @@ form {
 }
 
 .errors {
-  padding: 0.6rem 1.6rem 0.6rem 0.9rem;
+  list-style: none;
+  padding: 0.6rem 0.9rem;
   margin: 0 0 0.75rem;
   color: var(--error);
   background: #fdecea;
@@ -311,4 +312,14 @@ form {
 .take-button:disabled {
   opacity: 0.5;
   cursor: wait;
+}
+
+.errors.prominent {
+  padding: 1rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #7a3a00;
+  background: #fff1e0;
+  border: 2px solid var(--orange);
+  border-radius: 1rem;
 }

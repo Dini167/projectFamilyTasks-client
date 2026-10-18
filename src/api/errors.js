@@ -1,6 +1,8 @@
 const NO_CONNECTION = 'לא ניתן להתחבר לשרת. יש לבדוק את החיבור ולנסות שוב.';
 const UNKNOWN = 'אירעה שגיאה. יש לנסות שוב.';
 
+export const isConflict = (error) => error.response?.status === 409;
+
 export const getErrorMessages = (error) => {
   if (!error.response) return [NO_CONNECTION];
   const { message, errors } = error.response.data ?? {};
