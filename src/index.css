@@ -127,6 +127,7 @@ form {
 }
 
 .link-button {
+  white-space: nowrap;
   padding: 0 0.9rem;
   font: inherit;
   font-size: 0.9rem;

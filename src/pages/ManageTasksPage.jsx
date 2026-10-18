@@ -1,20 +1,26 @@
 import { useEffect, useState } from 'react';
 import { getErrorMessages } from '../api/errors';
+import { removeFromRound } from '../api/roundsApi';
 import { deleteTask, getCategories, getTasks } from '../api/tasksApi';
 import FormErrors from '../components/FormErrors';
 import Pager from '../components/Pager';
 import TaskCard from '../components/TaskCard';
 import TaskForm from '../components/TaskForm';
+import useCurrentRound from '../hooks/useCurrentRound';
 import usePagedList from '../hooks/usePagedList';
+import useRowAction from '../hooks/useRowAction';
 
 const PAGE_SIZE = 8;
+const REMOVED_NOTICE = 'המשימה הוסרה מהסבב הנוכחי בלבד. היא תחזור בסבב הבא.';
 
 export default function ManageTasksPage() {
   const { items, totalCount, page, setPage, pageCount, loading, errors, reload } = usePagedList(getTasks, PAGE_SIZE);
+  const round = useCurrentRound();
   const [categories, setCategories] = useState([]);
   const [editing, setEditing] = useState(null);
   const [confirmingId, setConfirmingId] = useState(null);
   const [deleteErrors, setDeleteErrors] = useState([]);
+  const [notice, setNotice] = useState('');
 
   useEffect(() => {
     getCategories().then(setCategories);
@@ -26,8 +32,19 @@ export default function ManageTasksPage() {
     reload();
   };
 
+  const removeFromCurrentRound = useRowAction(
+    (taskId) => removeFromRound(round.roundId, round.freeAssignments.get(taskId)),
+    { onSuccess: () => setNotice(REMOVED_NOTICE), onSettled: round.refresh },
+  );
+
+  const startRemoveFromRound = (taskId) => {
+    setNotice('');
+    removeFromCurrentRound.run(taskId);
+  };
+
   const remove = async (task) => {
     setDeleteErrors([]);
+    setNotice('');
     try {
       await deleteTask(task.id);
       if (items.length === 1 && page > 1) setPage(page - 1);
@@ -36,6 +53,7 @@ export default function ManageTasksPage() {
     } finally {
       setConfirmingId(null);
       reload();
+      round.refresh();
     }
   };
 
@@ -58,6 +76,17 @@ export default function ManageTasksPage() {
         <button type="button" className="link-button" onClick={() => setEditing(task)}>
           עריכה
         </button>
+        {round.freeAssignments.has(task.id) && (
+          <button
+            type="button"
+            className="link-button"
+            title="המשימה לא תוצע לילדים בסבב הנוכחי בלבד"
+            disabled={removeFromCurrentRound.busyId !== null}
+            onClick={() => startRemoveFromRound(task.id)}
+          >
+            הסרה מהסבב
+          </button>
+        )}
         <button type="button" className="link-button" onClick={() => setConfirmingId(task.id)}>
           מחיקה
         </button>
@@ -82,9 +111,11 @@ export default function ManageTasksPage() {
         </button>
       </div>
       <p className="subtitle">{totalCount} משימות במערכת. הילדים רואים את המשימות המתאימות לגילם.</p>
+      {notice && <p className="notice">{notice}</p>}
       {editing && !editing.id && renderForm(null)}
       <FormErrors errors={errors} />
       <FormErrors errors={deleteErrors} prominent />
+      <FormErrors errors={removeFromCurrentRound.errors} prominent={removeFromCurrentRound.conflict} />
       {loading && <p className="empty">טוען משימות...</p>}
       <ul className="tasks">{items.map(renderTask)}</ul>
       <Pager page={page} pageCount={pageCount} onChange={setPage} />
