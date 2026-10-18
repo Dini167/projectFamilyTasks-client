@@ -1,16 +1,41 @@
-# React + Vite
+# projectFamilyTasks-client
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+לקוח React (Vite) של מערכת ניהול משימות הבית. הוא מתקשר עם שרת ה-.NET (`projectFamilyTasks`) דרך HTTP.
 
-Currently, two official plugins are available:
+## מה יש באתר
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **כניסה והרשמה:** ילד נרשם בעצמו וממתין לאישור הורה. הורה נוסף נרשם עם סיסמת ההורים המשותפת. "שכחתי סיסמת הורים"
+  (מפתח חירום) מופיע רק כשבוחרים "הורה".
+- **ילד:** משימות פנויות לפי גיל (עם עימוד ותפיסה "ראשון מקבל"), המשימות שלי עם "ביצעתי!" ומאזן נקודות,
+  בקשות החלפה, וצ'אט משפחתי.
+- **הורה:** ניהול סבב (פתיחה, התחלה, סגירה, שיבוץ ילד), ניהול משימות (הוספה, עריכה, מחיקה, הסרה מהסבב),
+  ילדים (אישור, איפוס סיסמה, הסרה), אישור החלפות וצ'אט. בכניסה ראשונה חובה להחליף את סיסמת ההורים.
+- עברית מימין לשמאל, בלי תמונות אדם ובלי משאבים חיצוניים (הגופן Heebo נטען מקומית), בהתאם לדרישות נטפרי.
 
-## React Compiler
+## הרצה מקומית
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+דרישות: Node 20 ומעלה, ושרת ה-API רץ (ראו ה-README של השרת).
 
-## Expanding the Oxlint configuration
+```
+npm install
+cp .env.example .env      # ולמלא VITE_API_URL, למשל http://localhost:5231
+npm run dev               # http://localhost:5173
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+פקודות נוספות: `npm run build` (בנייה לתיקיית `dist`), `npm run lint`.
+
+## מבנה
+
+| תיקייה | תוכן |
+|---|---|
+| `src/api` | קריאות לשרת (`client.js` עם axios, טוקן בכל בקשה, ויציאה אוטומטית ב-401) |
+| `src/hooks` | `usePagedList` (עימוד), `useRowAction`, `useSubmit`, `useCurrentRound` |
+| `src/components` | רכיבים משותפים: טפסים, כרטיסים, לשוניות, עימוד |
+| `src/pages` | המסכים של הילד, של ההורה ושל הכניסה |
+
+כל הודעות השגיאה מגיעות מהשרת בעברית ומוצגות כפי שהן.
+
+## העלאה ל-Render (Static Site)
+
+Build Command: `npm install && npm run build`. Publish Directory: `dist`. משתנה סביבה: `VITE_API_URL` (כתובת השרת).
+בשרת יש להגדיר `Cors__AllowedOrigins__0` ככתובת הלקוח.
