@@ -9,6 +9,11 @@ export default function TaskCard({ task, children }) {
           <span>{TIME_OF_DAY_LABELS[task.timeOfDay]}</span>
           <span>{FREQUENCY_LABELS[task.frequency]}</span>
           <span>{task.estimatedMinutes} דקות</span>
+          {task.categories?.map((category) => (
+            <span key={category.id} className="category-chip">
+              {category.name}
+            </span>
+          ))}
         </p>
       </div>
       <div className="task-side">

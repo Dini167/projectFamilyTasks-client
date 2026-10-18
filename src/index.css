@@ -323,3 +323,84 @@ form {
   border: 2px solid var(--orange);
   border-radius: 1rem;
 }
+
+.heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.panel {
+  padding: 1.25rem;
+  margin-bottom: 1.25rem;
+  background: #fff;
+  border: 2px solid var(--teal);
+  border-radius: 1.2rem;
+}
+
+.panel h3 {
+  margin: 0 0 1rem;
+  color: var(--teal-dark);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.row .field,
+.row .button {
+  flex: 1 1 8rem;
+}
+
+.field-box select {
+  flex: 1;
+  padding: 0.75rem 0.9rem;
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  outline: 0;
+}
+
+.categories {
+  padding: 0.5rem 0.9rem 0.75rem;
+  margin: 0 0 1rem;
+  border: 2px solid var(--line);
+  border-radius: 0.8rem;
+}
+
+.categories legend {
+  font-weight: 600;
+}
+
+.categories label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-inline-end: 1rem;
+}
+
+.category-chip {
+  color: #b4560d !important;
+  background: #ffe9d6 !important;
+}
+
+.confirm {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.danger-button {
+  padding: 0.5rem 0.9rem;
+  font: inherit;
+  font-weight: 700;
+  color: #fff;
+  background: var(--error);
+  border: 0;
+  border-radius: 0.7rem;
+  cursor: pointer;
+}
