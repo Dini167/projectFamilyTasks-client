@@ -8,6 +8,7 @@ import MyTasksPage from './MyTasksPage';
 import SwapsPage from './SwapsPage';
 
 const POLL_MS = 10000;
+const BIG_UI_MAX_AGE = 10;
 const PENDING_TABS = [{ key: 'chat', label: "צ'אט" }];
 const TABS = [
   { key: 'available', label: 'משימות פנויות' },
@@ -45,7 +46,7 @@ export default function ChildHome() {
       {pending && <PendingApprovalNotice />}
       <Tabs tabs={pending ? PENDING_TABS : TABS} active={activeTab} onChange={setTab} />
       {activeTab === 'available' && <AvailableTasksPage />}
-      {activeTab === 'mine' && <MyTasksPage onPointsChanged={refreshProfile} />}
+      {activeTab === 'mine' && <MyTasksPage onPointsChanged={refreshProfile} big={profile?.age < BIG_UI_MAX_AGE} />}
       {activeTab === 'swaps' && profile && <SwapsPage childId={profile.id} />}
       {activeTab === 'chat' && <ChatPage />}
     </>
