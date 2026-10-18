@@ -1,11 +1,14 @@
 import { useCallback, useEffect, useState } from 'react';
 import { getMyProfile } from '../api/assignmentsApi';
+import PendingApprovalNotice from '../components/PendingApprovalNotice';
 import Tabs from '../components/Tabs';
 import AvailableTasksPage from './AvailableTasksPage';
 import ChatPage from './ChatPage';
 import MyTasksPage from './MyTasksPage';
 import SwapsPage from './SwapsPage';
 
+const POLL_MS = 10000;
+const PENDING_TABS = [{ key: 'chat', label: "צ'אט" }];
 const TABS = [
   { key: 'available', label: 'משימות פנויות' },
   { key: 'mine', label: 'המשימות שלי' },
@@ -23,17 +26,28 @@ export default function ChildHome() {
 
   useEffect(refreshProfile, [refreshProfile]);
 
+  const pending = profile?.isApproved === false;
+
+  useEffect(() => {
+    if (!pending) return undefined;
+    const timer = setInterval(refreshProfile, POLL_MS);
+    return () => clearInterval(timer);
+  }, [pending, refreshProfile]);
+
+  const activeTab = pending ? 'chat' : tab;
+
   return (
     <>
       <p className="balance">
         <span>מאזן הנקודות שלי</span>
         <strong>★ {profile?.pointsBalance ?? '...'}</strong>
       </p>
-      <Tabs tabs={TABS} active={tab} onChange={setTab} />
-      {tab === 'available' && <AvailableTasksPage />}
-      {tab === 'mine' && <MyTasksPage onPointsChanged={refreshProfile} />}
-      {tab === 'swaps' && profile && <SwapsPage childId={profile.id} />}
-      {tab === 'chat' && <ChatPage />}
+      {pending && <PendingApprovalNotice />}
+      <Tabs tabs={pending ? PENDING_TABS : TABS} active={activeTab} onChange={setTab} />
+      {activeTab === 'available' && <AvailableTasksPage />}
+      {activeTab === 'mine' && <MyTasksPage onPointsChanged={refreshProfile} />}
+      {activeTab === 'swaps' && profile && <SwapsPage childId={profile.id} />}
+      {activeTab === 'chat' && <ChatPage />}
     </>
   );
 }

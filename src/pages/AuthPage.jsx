@@ -32,7 +32,7 @@ export default function AuthPage({ onLogin }) {
         {tab === 'login' ? (
           <LoginForm onLogin={onLogin} onForgotParentsPassword={() => setRecovering(true)} />
         ) : (
-          <RegisterForm onLogin={onLogin} onPending={showLoginWithNotice} />
+          <RegisterForm onLogin={onLogin} />
         )}
       </>
     );

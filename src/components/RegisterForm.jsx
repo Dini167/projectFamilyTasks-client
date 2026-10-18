@@ -1,14 +1,13 @@
 import { useState } from 'react';
-import { registerChild, registerParent } from '../api/authApi';
+import { login, registerChild, registerParent } from '../api/authApi';
 import { saveLastUserName, saveSession } from '../api/tokenStorage';
 import useSubmit from '../hooks/useSubmit';
 import FormErrors from './FormErrors';
 import TextField from './TextField';
 
-const PENDING_NOTICE = 'ההרשמה התקבלה. החשבון ממתין לאישור של אחד ההורים, ואחריו אפשר להתחבר.';
 const EMPTY_FORM = { name: '', userName: '', password: '', age: '', parentsPassword: '' };
 
-export default function RegisterForm({ onLogin, onPending }) {
+export default function RegisterForm({ onLogin }) {
   const [isParent, setIsParent] = useState(false);
   const [form, setForm] = useState(EMPTY_FORM);
   const bind = (key) => ({
@@ -26,7 +25,9 @@ export default function RegisterForm({ onLogin, onPending }) {
   const registerAsChild = async () => {
     const { name, userName, password, age } = form;
     await registerChild({ name, userName, password, age: Number(age) });
-    onPending(PENDING_NOTICE);
+    const session = await login({ userName, password });
+    saveSession(session);
+    onLogin(session);
   };
 
   const { busy, errors, submit } = useSubmit(async () => {
