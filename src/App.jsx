@@ -4,7 +4,7 @@ import { clearSession, getSession } from './api/tokenStorage';
 import Logo from './components/Logo';
 import AuthPage from './pages/AuthPage';
 import ChildHome from './pages/ChildHome';
-import ManageTasksPage from './pages/ManageTasksPage';
+import ParentHome from './pages/ParentHome';
 
 export default function App() {
   const [session, setSession] = useState(getSession);
@@ -26,7 +26,7 @@ export default function App() {
         </button>
       </header>
       <main className="content">
-        {session.role === ROLES.child ? <ChildHome /> : <ManageTasksPage />}
+        {session.role === ROLES.child ? <ChildHome /> : <ParentHome />}
       </main>
     </div>
   );

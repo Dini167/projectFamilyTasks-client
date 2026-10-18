@@ -8,3 +8,7 @@ export const getRoundSummary = (roundId) => client.get(`/api/rounds/${roundId}/s
 
 export const removeFromRound = (roundId, assignmentId) =>
   client.delete(`/api/rounds/${roundId}/assignments/${assignmentId}`);
+
+export const openRound = (tasksQuotaPerChild) => client.post('/api/rounds', { tasksQuotaPerChild }).then(data);
+
+export const setRoundStatus = (roundId, status) => client.patch(`/api/rounds/${roundId}`, { status });

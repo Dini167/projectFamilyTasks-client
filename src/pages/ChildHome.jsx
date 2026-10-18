@@ -1,9 +1,13 @@
 import { useCallback, useEffect, useState } from 'react';
 import { getMyProfile } from '../api/assignmentsApi';
+import Tabs from '../components/Tabs';
 import AvailableTasksPage from './AvailableTasksPage';
 import MyTasksPage from './MyTasksPage';
 
-const TABS = { available: 'משימות פנויות', mine: 'המשימות שלי' };
+const TABS = [
+  { key: 'available', label: 'משימות פנויות' },
+  { key: 'mine', label: 'המשימות שלי' },
+];
 
 export default function ChildHome() {
   const [tab, setTab] = useState('available');
@@ -21,13 +25,7 @@ export default function ChildHome() {
         <span>מאזן הנקודות שלי</span>
         <strong>★ {points ?? '...'}</strong>
       </p>
-      <div className="tabs" role="tablist">
-        {Object.entries(TABS).map(([key, label]) => (
-          <button key={key} type="button" role="tab" aria-selected={tab === key} onClick={() => setTab(key)}>
-            {label}
-          </button>
-        ))}
-      </div>
+      <Tabs tabs={TABS} active={tab} onChange={setTab} />
       {tab === 'available' ? <AvailableTasksPage /> : <MyTasksPage onPointsChanged={refreshPoints} />}
     </>
   );
