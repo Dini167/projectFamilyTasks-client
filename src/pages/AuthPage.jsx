@@ -2,6 +2,12 @@ import { useState } from 'react';
 import Logo from '../components/Logo';
 import LoginForm from '../components/LoginForm';
 import RegisterForm from '../components/RegisterForm';
+import Tabs from '../components/Tabs';
+
+const TABS = [
+  { key: 'login', label: 'כניסה' },
+  { key: 'register', label: 'הרשמה' },
+];
 
 export default function AuthPage({ onLogin }) {
   const [tab, setTab] = useState('login');
@@ -19,14 +25,7 @@ export default function AuthPage({ onLogin }) {
         <h1>משימות הבית</h1>
         <p className="subtitle">כל משימה במקומה, וכל נקודה נספרת.</p>
 
-        <div className="tabs" role="tablist">
-          <button type="button" role="tab" aria-selected={tab === 'login'} onClick={() => setTab('login')}>
-            כניסה
-          </button>
-          <button type="button" role="tab" aria-selected={tab === 'register'} onClick={() => setTab('register')}>
-            הרשמה
-          </button>
-        </div>
+        <Tabs tabs={TABS} active={tab} onChange={setTab} />
 
         {notice && tab === 'login' && <p className="notice">{notice}</p>}
         {tab === 'login' ? (
