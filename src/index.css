@@ -460,3 +460,58 @@ form {
   margin: 1rem auto 0;
   padding: 0.25rem;
 }
+
+.message-form {
+  margin-bottom: 1rem;
+}
+
+.message-form textarea {
+  width: 100%;
+  padding: 0.75rem 0.9rem;
+  font: inherit;
+  color: inherit;
+  resize: vertical;
+  background: #fff;
+  border: 2px solid var(--line);
+  border-radius: 0.8rem;
+}
+
+.message-form textarea:focus {
+  border-color: var(--teal);
+  outline: 0;
+  box-shadow: 0 0 0 3px rgb(15 157 147 / 18%);
+}
+
+.messages {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.message {
+  padding: 0.7rem 1rem;
+  margin-bottom: 0.6rem;
+  background: #fff;
+  border-radius: 1rem;
+  border-inline-start: 0.3rem solid var(--line);
+  box-shadow: 0 0.2rem 0.8rem rgb(11 111 104 / 8%);
+}
+
+.message.mine {
+  background: #e3f6f3;
+  border-inline-start-color: var(--teal);
+}
+
+.message-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.message p {
+  margin: 0.3rem 0 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
