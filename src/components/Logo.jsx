@@ -1,0 +1,16 @@
+export default function Logo({ size = 64 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 64 64" aria-hidden="true">
+      <rect width="64" height="64" rx="18" fill="#0f9d93" />
+      <path d="M12 31 32 14l20 17v21a3 3 0 0 1-3 3H15a3 3 0 0 1-3-3Z" fill="#fff8ee" />
+      <path
+        d="m23 38 6 6 12-13"
+        fill="none"
+        stroke="#ff8a3d"
+        strokeWidth="5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
