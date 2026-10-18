@@ -39,6 +39,40 @@ export default function ManageTasksPage() {
     }
   };
 
+  const renderForm = (task) => (
+    <TaskForm task={task} categories={categories} onSaved={saved} onCancel={closeForm} />
+  );
+
+  const renderActions = (task) =>
+    confirmingId === task.id ? (
+      <div className="confirm">
+        <button type="button" className="danger-button" onClick={() => remove(task)}>
+          מחיקה סופית
+        </button>
+        <button type="button" className="link-button" onClick={() => setConfirmingId(null)}>
+          ביטול
+        </button>
+      </div>
+    ) : (
+      <div className="confirm">
+        <button type="button" className="link-button" onClick={() => setEditing(task)}>
+          עריכה
+        </button>
+        <button type="button" className="link-button" onClick={() => setConfirmingId(task.id)}>
+          מחיקה
+        </button>
+      </div>
+    );
+
+  const renderTask = (task) =>
+    editing?.id === task.id ? (
+      <li key={task.id}>{renderForm(task)}</li>
+    ) : (
+      <TaskCard key={task.id} task={task}>
+        {renderActions(task)}
+      </TaskCard>
+    );
+
   return (
     <section>
       <div className="heading">
@@ -48,38 +82,11 @@ export default function ManageTasksPage() {
         </button>
       </div>
       <p className="subtitle">{totalCount} משימות במערכת. הילדים רואים את המשימות המתאימות לגילם.</p>
-      {editing && (
-        <TaskForm key={editing.id ?? 'new'} task={editing.id ? editing : null} categories={categories}
-          onSaved={saved} onCancel={closeForm} />
-      )}
+      {editing && !editing.id && renderForm(null)}
       <FormErrors errors={errors} />
       <FormErrors errors={deleteErrors} prominent />
       {loading && <p className="empty">טוען משימות...</p>}
-      <ul className="tasks">
-        {items.map((task) => (
-          <TaskCard key={task.id} task={task}>
-            {confirmingId === task.id ? (
-              <div className="confirm">
-                <button type="button" className="danger-button" onClick={() => remove(task)}>
-                  מחיקה סופית
-                </button>
-                <button type="button" className="link-button" onClick={() => setConfirmingId(null)}>
-                  ביטול
-                </button>
-              </div>
-            ) : (
-              <div className="confirm">
-                <button type="button" className="link-button" onClick={() => setEditing(task)}>
-                  עריכה
-                </button>
-                <button type="button" className="link-button" onClick={() => setConfirmingId(task.id)}>
-                  מחיקה
-                </button>
-              </div>
-            )}
-          </TaskCard>
-        ))}
-      </ul>
+      <ul className="tasks">{items.map(renderTask)}</ul>
       <Pager page={page} pageCount={pageCount} onChange={setPage} />
     </section>
   );
