@@ -7,3 +7,5 @@ export const login = (body) => post('/api/auth/login', body);
 export const registerChild = (body) => post('/api/auth/register', body);
 
 export const registerParent = (body) => post('/api/auth/register-parent', body);
+
+export const changeParentsPassword = (body) => client.put('/api/auth/parents-password', body);
