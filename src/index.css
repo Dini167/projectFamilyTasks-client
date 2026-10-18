@@ -432,3 +432,25 @@ form {
   padding: 0.85rem;
   font-size: 1.05rem;
 }
+
+.child-item {
+  margin-bottom: 0.75rem;
+}
+
+.child-item .task {
+  margin-bottom: 0;
+}
+
+.inline-form {
+  padding: 1rem;
+  margin-top: 0.4rem;
+  background: #fff;
+  border: 2px dashed var(--teal);
+  border-radius: 1rem;
+}
+
+.tabs {
+  grid-template-columns: none;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+}
