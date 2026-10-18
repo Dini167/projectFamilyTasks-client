@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { takeAssignment } from '../api/assignmentsApi';
-import { getErrorMessages } from '../api/errors';
+import { getErrorMessages, isConflict } from '../api/errors';
 import FormErrors from '../components/FormErrors';
 import Pager from '../components/Pager';
 import TaskCard from '../components/TaskCard';
@@ -10,6 +10,7 @@ export default function AvailableTasksPage() {
   const { items, totalCount, page, setPage, pageCount, loading, errors, reload } = useAssignments('available');
   const [takingId, setTakingId] = useState(null);
   const [takeErrors, setTakeErrors] = useState([]);
+  const [conflict, setConflict] = useState(false);
 
   const take = async (id) => {
     setTakingId(id);
@@ -19,6 +20,7 @@ export default function AvailableTasksPage() {
       if (items.length === 1 && page > 1) setPage(page - 1);
     } catch (error) {
       setTakeErrors(getErrorMessages(error));
+      setConflict(isConflict(error));
     } finally {
       setTakingId(null);
       reload();
@@ -29,10 +31,11 @@ export default function AvailableTasksPage() {
     <section>
       <h2>משימות פנויות</h2>
       <p className="subtitle">{totalCount} משימות מתאימות לגיל ממתינות לבחירה.</p>
-      <FormErrors errors={[...errors, ...takeErrors]} />
+      <FormErrors errors={errors} />
+      <FormErrors errors={takeErrors} prominent={conflict} />
       {loading && <p className="empty">טוען משימות...</p>}
       {!loading && !errors.length && totalCount === 0 && (
-        <p className="empty">אין כרגע משימות פנויות. ייתכן שהסבב עדיין לא נפתח.</p>
+        <p className="empty">אין כרגע משימות פנויות לגיל זה.</p>
       )}
       <ul className="tasks">
         {items.map((task) => (

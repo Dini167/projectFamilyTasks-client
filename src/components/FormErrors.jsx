@@ -1,7 +1,7 @@
-export default function FormErrors({ errors }) {
+export default function FormErrors({ errors, prominent = false }) {
   if (!errors.length) return null;
   return (
-    <ul className="errors" role="alert">
+    <ul className={prominent ? 'errors prominent' : 'errors'} role="alert">
       {errors.map((message) => (
         <li key={message}>{message}</li>
       ))}
