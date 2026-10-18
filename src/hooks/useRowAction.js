@@ -10,7 +10,8 @@ export default function useRowAction(action, { onSuccess, onSettled } = {}) {
     setBusyId(id);
     setErrors([]);
     try {
-      onSuccess?.(await action(id));
+      const result = await action(id);
+      onSuccess?.(result);
     } catch (error) {
       setErrors(getErrorMessages(error));
       setConflict(isConflict(error));
