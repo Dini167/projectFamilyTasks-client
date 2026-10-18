@@ -1,7 +1,9 @@
 import { useState } from 'react';
+import { ROLES } from './api/labels';
 import { clearSession, getSession } from './api/tokenStorage';
-import AuthPage from './pages/AuthPage';
 import Logo from './components/Logo';
+import AuthPage from './pages/AuthPage';
+import AvailableTasksPage from './pages/AvailableTasksPage';
 
 export default function App() {
   const [session, setSession] = useState(getSession);
@@ -14,15 +16,21 @@ export default function App() {
   if (!session) return <AuthPage onLogin={setSession} />;
 
   return (
-    <main className="page">
-      <section className="card">
-        <Logo />
-        <h1>שלום {session.name}</h1>
-        <p className="subtitle">ההתחברות הצליחה. מסכי המשימות ייבנו במשימות הבאות.</p>
-        <button type="button" className="button secondary" onClick={logout}>
+    <div className="app">
+      <header className="topbar">
+        <Logo size={40} />
+        <strong>שלום {session.name}</strong>
+        <button type="button" className="link-button" onClick={logout}>
           התנתקות
         </button>
-      </section>
-    </main>
+      </header>
+      <main className="content">
+        {session.role === ROLES.child ? (
+          <AvailableTasksPage />
+        ) : (
+          <p className="empty">מסכי ההורים ייבנו בהמשך.</p>
+        )}
+      </main>
+    </div>
   );
 }
