@@ -8,3 +8,6 @@ export const approveChild = (id) => client.put(`/api/children/${id}/approval`);
 export const resetChildPassword = (id, newPassword) => client.put(`/api/children/${id}/password`, { newPassword });
 
 export const deleteChild = (id) => client.delete(`/api/children/${id}`);
+
+export const assignTaskToChild = (childId, assignmentId) =>
+  client.put(`/api/children/${childId}/assignments/${assignmentId}`);

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ROUND_STATUS, ROUND_STATUS_LABELS } from '../api/labels';
 import { openRound, setRoundStatus } from '../api/roundsApi';
+import AssignTaskForm from '../components/AssignTaskForm';
 import FormErrors from '../components/FormErrors';
 import TextField from '../components/TextField';
 import useCurrentRound from '../hooks/useCurrentRound';
@@ -38,19 +39,48 @@ function OpenRoundForm({ onOpened }) {
   );
 }
 
-function ChildSummaryRow({ child, quota }) {
+function ChildSummaryRow({ child, quota, freeTasks, onAssigned }) {
+  const [assigning, setAssigning] = useState(false);
+
+  const assigned = () => {
+    setAssigning(false);
+    onAssigned();
+  };
+
   return (
-    <li className="task">
-      <div className="task-main">
-        <h3>{child.childName}</h3>
-        <p className="chips">
-          <span>
-            נבחרו {child.assignments.length} מתוך {quota}
-          </span>
-          <span>בוצעו {child.completionsCount}</span>
-        </p>
+    <li className="child-item">
+      <div className="task">
+        <div className="task-main">
+          <h3>{child.childName}</h3>
+          <p className="chips">
+            <span>
+              נבחרו {child.assignments.length} מתוך {quota}
+            </span>
+            <span>בוצעו {child.completionsCount}</span>
+            {child.assignments.map((task) => (
+              <span key={task.id} className="category-chip">
+                {task.description}
+              </span>
+            ))}
+          </p>
+        </div>
+        <div className="task-side">
+          <span className="points">★ {child.pointsEarned}</span>
+          {freeTasks.length > 0 && !assigning && (
+            <button type="button" className="link-button" onClick={() => setAssigning(true)}>
+              שיבוץ משימה
+            </button>
+          )}
+        </div>
       </div>
-      <span className="points">★ {child.pointsEarned}</span>
+      {assigning && (
+        <AssignTaskForm
+          child={child}
+          freeTasks={freeTasks}
+          onAssigned={assigned}
+          onCancel={() => setAssigning(false)}
+        />
+      )}
     </li>
   );
 }
@@ -106,7 +136,13 @@ export default function RoundPage() {
       <h3 className="section-title">מצב הילדים</h3>
       <ul className="tasks">
         {summary.children.map((child) => (
-          <ChildSummaryRow key={child.childId} child={child} quota={summary.tasksQuotaPerChild} />
+          <ChildSummaryRow
+            key={child.childId}
+            child={child}
+            quota={summary.tasksQuotaPerChild}
+            freeTasks={summary.unassignedTasks}
+            onAssigned={refresh}
+          />
         ))}
       </ul>
     </section>
