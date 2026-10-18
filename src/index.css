@@ -404,3 +404,19 @@ form {
   border-radius: 0.7rem;
   cursor: pointer;
 }
+
+.balance {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 1.2rem;
+  margin: 0 0 1rem;
+  color: #fff;
+  background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+  border-radius: 1.2rem;
+  box-shadow: 0 0.6rem 1.4rem rgb(11 111 104 / 25%);
+}
+
+.balance strong {
+  font-size: 1.6rem;
+}

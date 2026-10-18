@@ -3,7 +3,7 @@ import { ROLES } from './api/labels';
 import { clearSession, getSession } from './api/tokenStorage';
 import Logo from './components/Logo';
 import AuthPage from './pages/AuthPage';
-import AvailableTasksPage from './pages/AvailableTasksPage';
+import ChildHome from './pages/ChildHome';
 import ManageTasksPage from './pages/ManageTasksPage';
 
 export default function App() {
@@ -26,7 +26,7 @@ export default function App() {
         </button>
       </header>
       <main className="content">
-        {session.role === ROLES.child ? <AvailableTasksPage /> : <ManageTasksPage />}
+        {session.role === ROLES.child ? <ChildHome /> : <ManageTasksPage />}
       </main>
     </div>
   );
