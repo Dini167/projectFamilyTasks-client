@@ -2,11 +2,13 @@ import { useCallback, useEffect, useState } from 'react';
 import { getMyProfile } from '../api/assignmentsApi';
 import Tabs from '../components/Tabs';
 import AvailableTasksPage from './AvailableTasksPage';
+import ChatPage from './ChatPage';
 import MyTasksPage from './MyTasksPage';
 
 const TABS = [
   { key: 'available', label: 'משימות פנויות' },
   { key: 'mine', label: 'המשימות שלי' },
+  { key: 'chat', label: "צ'אט" },
 ];
 
 export default function ChildHome() {
@@ -26,7 +28,9 @@ export default function ChildHome() {
         <strong>★ {points ?? '...'}</strong>
       </p>
       <Tabs tabs={TABS} active={tab} onChange={setTab} />
-      {tab === 'available' ? <AvailableTasksPage /> : <MyTasksPage onPointsChanged={refreshPoints} />}
+      {tab === 'available' && <AvailableTasksPage />}
+      {tab === 'mine' && <MyTasksPage onPointsChanged={refreshPoints} />}
+      {tab === 'chat' && <ChatPage />}
     </>
   );
 }
