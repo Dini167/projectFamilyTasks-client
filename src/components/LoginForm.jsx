@@ -5,7 +5,7 @@ import useSubmit from '../hooks/useSubmit';
 import FormErrors from './FormErrors';
 import TextField from './TextField';
 
-export default function LoginForm({ onLogin }) {
+export default function LoginForm({ onLogin, onForgotParentsPassword }) {
   const [userName, setUserName] = useState(getLastUserName);
   const [password, setPassword] = useState('');
 
@@ -34,6 +34,9 @@ export default function LoginForm({ onLogin }) {
       <FormErrors errors={errors} />
       <button type="submit" className="button" disabled={busy}>
         {busy ? 'מתחבר...' : 'כניסה'}
+      </button>
+      <button type="button" className="link-button back-link" onClick={onForgotParentsPassword}>
+        שכחתי סיסמת הורים
       </button>
     </form>
   );
