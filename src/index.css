@@ -452,7 +452,13 @@ form {
 .tabs {
   grid-template-columns: none;
   grid-auto-flow: column;
-  grid-auto-columns: 1fr;
+  grid-auto-columns: minmax(max-content, 1fr);
+  overflow-x: auto;
+}
+
+.tabs button {
+  padding-inline: 0.9rem;
+  white-space: nowrap;
 }
 
 .back-link {
@@ -705,4 +711,142 @@ form {
   .my-task .done-button {
     flex: 1 1 100%;
   }
+}
+
+.dash-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.dash-title {
+  margin: 1.4rem 0 0.7rem;
+  color: var(--teal-dark);
+}
+
+.overview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+  gap: 0.7rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.overview li {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.9rem 1rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+}
+
+.overview strong {
+  font-size: 1.8rem;
+  color: var(--teal-dark);
+}
+
+.overview span {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.week-wrap {
+  overflow-x: auto;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+}
+
+.week-grid {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.week-grid th,
+.week-grid td {
+  min-width: 2.6rem;
+  padding: 0.6rem 0.4rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.week-grid tbody th {
+  text-align: start;
+  white-space: nowrap;
+}
+
+.week-grid th.today,
+.week-grid td.today {
+  background: #fff4e5;
+}
+
+.week-grid td.zero {
+  color: #b9c7c5;
+}
+
+.week-grid td.low {
+  font-weight: 700;
+  color: var(--teal-dark);
+  background: #d9f3ee;
+}
+
+.week-grid td.high {
+  font-weight: 700;
+  color: #fff;
+  background: var(--teal);
+}
+
+.week-grid td.total {
+  font-weight: 700;
+  color: var(--teal-dark);
+}
+
+.dash-filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+}
+
+.dash-child h4 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 1rem 0 0.5rem;
+}
+
+.dash-child h4 span {
+  font-size: 0.9rem;
+  color: #b4560d;
+}
+
+.dash-task {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.7rem 1rem;
+  margin-bottom: 0.5rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 0.9rem;
+}
+
+.dash-task h5 {
+  margin: 0 0 0.2rem;
+  font-size: 1rem;
+}
+
+.dash-task p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.dash-task.done h5 {
+  color: var(--muted);
+  text-decoration: line-through;
 }
